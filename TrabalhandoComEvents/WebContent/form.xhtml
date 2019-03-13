@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Events</title>
+</head>
+
+<f:event listener="#{form.carregarRegioes}" type="preRenderView" />
+
+<body>
+<!-- 
+
+	Basicamente, a propriedade de form.siglaRegiao será preenchida quando um select for escolhido.
+	O form.regioes será usado para retornar as opções de região em f:selectItems.
+	A propriedade form.siglaRegiao será usada para retornar os estados da região escolhida.
+	
+	Tag usada no exemplo de Action Event <h:commandButton value="Carregar Estados" actionListener="form.carregarEstados"/>
+
+ -->
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Região:"/>
+			
+			<h:selectOneMenu value="#{form.siglaRegiao}" valueChangeListener="#{form.carregarEstados}" onchange="submit();" immediate="true"><!-- O submit() é uma chamada JS necessária para o value change events. O immediate="true" faz com que os Action Events e os Value Change Events sejam feitos antes do processo de validação -->
+				<f:selectItem itemValue="-" itemLabel="-" noSelectionOption="true"/>
+				<f:selectItems value="#{form.regioes}" var="r" itemValue="#{r.sigla}" itemLabel="#{r.nome}" />
+			</h:selectOneMenu>
+			
+			
+			<h:outputLabel value="Estado:"/>
+			<h:selectOneMenu value="#{form.siglaEstado}">
+				<f:selectItem itemValue="-" itemLabel="-" noSelectionOption="true"/>
+				<f:selectItems value="#{form.estados}" var="e" itemValue="#{e.sigla}" itemLabel="#{e.nome}" />
+			</h:selectOneMenu>
+			
+			<h:outputLabel value="Cidade:"/>
+			<h:inputText value="#{form.cidade}" required="true"/>
+		</h:panelGrid>
+	</h:form>
+	
+	<h:messages />
+</body>
+</html>
